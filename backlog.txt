@@ -1,0 +1,74 @@
+Telas
+    Tela de login
+
+    Tela da diretoria
+        Tela de cadastros
+            Cadastro de professores
+            Cadastro de disciplinas
+            Cadastro de turmas
+            Cadastro de alunos
+                Informações etc
+                Cadastro de responsáveis
+                    Informações
+                    Preferência de notificação (E-mail, sms, mensagem por whatsapp)
+
+        Tela de Avisos
+            Sistema de avisos/mensagens
+                Notificação por sms, e-mail ou mensagem
+                    Lançamento de nota
+                    Falta
+                    Falta justificada
+                    Avisos
+
+    Tela de professores
+        Disciplinas ministradas
+        Turnos
+            Turmas
+                Lista de presença
+
+    Tela de Financeiro
+        Contas a pagar:
+            Folha de pagamento
+            Água
+            Luz
+            Internet
+            Manutenção
+        Contas a receber:
+            Mensalidades
+
+
+    Tela de Relatórios
+        Desempenho por turma:
+            Número de alunos por turma
+            Média de notas
+            Média de presença
+
+        Desempenho por aluno
+            Média de notas
+            Média de presença
+
+
+
+
+Usuários
+    Diretoria
+        - pode cadastrar professores e criar senhas automáticas para eles
+        - pode cadastrar alunos e criar senhas automáticas para eles
+        - pode cadastrar disciplinas
+        - pode alterar notas
+        - pode gerar notificações
+
+    Professores
+        - pode criar avaliações
+        - pode criar trabalhos
+        - pode criar atividades
+        - pode lançar notas no boletim
+        - pode registrar presença dos alunos
+
+    Alunos e Responsáveis
+        - pode acessar notas no boletim
+        - pode acessar quadro de presença
+        - pode acessar quadro de trabalhos e atividades
+        - podem receber e acessar avisos da escola
+
+

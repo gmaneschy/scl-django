@@ -1,0 +1,11 @@
+Tela de login
+-> 1° login no sistema é obrigatoriamente o da diretoria.
+-> definição de usuário e senha da instituição.
+-> registro de informações acerca da instituição.
+
+Acesso ao sistema
+-> Criar Disciplina
+-> Criar Turmas
+-> Criar Professor
+-> Criar Aluno
+-> Criar Aula

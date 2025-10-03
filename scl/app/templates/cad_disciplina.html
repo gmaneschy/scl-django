@@ -1,0 +1,18 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <title>Cadastrar Disciplina</title>
+</head>
+
+<div>
+    <h1>Cadastrar Disciplina</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Cadastrar Professor</button>
+    </form>
+</div>
+
+{% endblock %}

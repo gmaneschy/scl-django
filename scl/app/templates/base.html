@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <title>{% block title %}{% endblock %}</title>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+</head>
+<body>
+{% block content %}
+{% endblock %}
+</body>
+</html>

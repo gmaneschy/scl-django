@@ -1,0 +1,16 @@
+django
+# django-admin startproject mysite
+# python manage.py startapp app
+
+
+sentry-sdk[django] #Logging
+
+celery[librabbitmq,redis,auth,msgpack] #Gerenciador de tarefas assíncronas
+#Tarefas assíncronas
+#https://docs.djangoproject.com/en/5.2/topics/email/ #Envio de e-mails
+#WPPConnect #Envio de mensagens via Whatsapp
+
+#Charts.js/Recharts #Gráficos dinâmicos e responsivos
+#Matplotlib #Gráficos não responsivos
+
+weasyprint #Geração de boletins em pdf

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+
+<body>
+<nav>
+  <div class="dropdown">
+    <button class="dropdown-toggle" type="button">
+      Cadastros
+    </button>
+    <div class="dropdown-menu">
+      <a href="{% url 'cad_disciplina' %}" class="dropdown-item">
+        Disciplina
+      </a>
+      <a href="{% url 'cad_turma' %}" class="dropdown-item">
+        Turma
+      </a>
+      <a href="{% url 'cad_professor' %}" class="dropdown-item">
+        Professor
+      </a>
+    </div>
+  </div>
+</nav>
+{% block content %}{% endblock %}
+</body>
+</html>
