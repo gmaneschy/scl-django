@@ -17,10 +17,14 @@ class Turma(models.Model):
     disciplinas = models.ManyToManyField(Disciplina, blank=True, verbose_name="Disciplinas")
     turno = models.CharField(max_length=100)
     sala = models.CharField(max_length=100)
+
     def __str__(self):
+        return f"{self.nome} - {self.turno} - {self.sala}"
+
+    def com_disciplinas(self):
+        """Metodo específico para quando quiser mostrar com disciplinas"""
         disciplinas_list = ", ".join([d.nome for d in self.disciplinas.all()])
         return f"{self.nome} - {disciplinas_list if disciplinas_list else 'Sem disciplinas'} - {self.turno} - {self.sala}"
-
 
 class Professor(models.Model):
     nome = models.CharField(max_length=100)
@@ -32,3 +36,18 @@ class Professor(models.Model):
         disciplinas_list = ", ".join([d.nome for d in self.disciplinas.all()])
         return (f"{self.nome} - {self.data_nascimento} - {self.email} - {self.telefone} "
                 f"- {disciplinas_list if disciplinas_list else 'Sem disciplinas'}")
+
+class Aluno(models.Model):
+    nome = models.CharField(max_length=100)
+    data_nascimento = models.DateField()
+    email = models.EmailField()
+    telefone = models.CharField()
+    turmas = models.ManyToManyField(Turma, blank=True, verbose_name="Turma")
+
+    r_nome = models.CharField(max_length=100, verbose_name="Nome do Responsável")
+    r_email = models.EmailField(verbose_name="E-mail do Responsável")
+    r_telefone = models.CharField(verbose_name="Telefone do Responsável")
+    def __str__(self):
+        return (f"{self.nome} - {self.data_nascimento} - {self.email} "
+                f"- {self.telefone} - {self.turmas}"
+                f"- {self.r_nome} - {self.r_email} - {self.r_telefone}")

@@ -49,3 +49,30 @@ def cad_professor(request):
     else:
         form = ProfessorForm()
     return render(request, 'cad_professor.html', {'form': form})
+
+def cad_aluno(request):
+    if request.method == 'POST':
+        form = AlunoForm(request.POST)
+        if form.is_valid():
+            aluno = form.save(commit=False)
+            """aluno.usuario = request.user"""
+            aluno.save()
+            return redirect('cad_aluno')
+    else:
+        form = AlunoForm()
+    return render(request, 'cad_aluno.html', {'form': form})
+
+def cad_funcionarios(request):
+    return render(request, 'cad_funcionarios.html')
+
+def avisos(request):
+    return render(request, 'avisos.html')
+
+def professores(request):
+    return render(request, 'professores.html')
+
+def financeiro(request):
+    return render(request, 'financeiro.html')
+
+def relatorios(request):
+    return render(request, 'relatorios.html')

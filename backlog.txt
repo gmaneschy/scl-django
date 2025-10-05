@@ -11,6 +11,11 @@ Telas
                 Cadastro de responsáveis
                     Informações
                     Preferência de notificação (E-mail, sms, mensagem por whatsapp)
+            Cadastro de outros funcionários
+                zeladores
+                porteiros
+                cantineiro
+
 
         Tela de Avisos
             Sistema de avisos/mensagens

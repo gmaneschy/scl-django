@@ -24,4 +24,10 @@ urlpatterns = [
     path('cad_disciplina', views.cad_disciplina, name='cad_disciplina'),
     path('cad_turma', views.cad_turma, name='cad_turma'),
     path('cad_professor', views.cad_professor, name='cad_professor'),
+    path('cad_aluno', views.cad_aluno, name='cad_aluno'),
+    path('cad_funcionarios', views.cad_funcionarios, name='cad_funcionarios'),
+    path('avisos', views.avisos, name='avisos'),
+    path('professores', views.professores, name='professores'),
+    path('financeiro', views.financeiro, name='financeiro'),
+    path('relatorios', views.relatorios, name='relatorios'),
 ]

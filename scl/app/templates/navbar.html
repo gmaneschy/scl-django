@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 {% load static %}
 <html lang="en">
     <meta charset="UTF-8">
@@ -6,24 +7,37 @@
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 
 <body>
-<nav>
-  <div class="dropdown">
-    <button class="dropdown-toggle" type="button">
-      Cadastros
-    </button>
-    <div class="dropdown-menu">
-      <a href="{% url 'cad_disciplina' %}" class="dropdown-item">
-        Disciplina
+
+<nav class="navbar">
+  <ul class="nav-list">
+    <li class="nav-item dropdown">
+      <a href="#" class="nav-link dropdown-toggle">
+        Cadastros
       </a>
-      <a href="{% url 'cad_turma' %}" class="dropdown-item">
-        Turma
-      </a>
-      <a href="{% url 'cad_professor' %}" class="dropdown-item">
-        Professor
-      </a>
-    </div>
-  </div>
+      <ul class="dropdown-menu">
+        <li><a href="{% url 'cad_disciplina' %}" class="dropdown-item">Disciplina</a></li>
+        <li><a href="{% url 'cad_turma' %}" class="dropdown-item">Turma</a></li>
+        <li><a href="{% url 'cad_professor' %}" class="dropdown-item">Professor</a></li>
+        <li><a href="{% url 'cad_aluno' %}" class="dropdown-item">Aluno</a></li>
+        <li><a href="{% url 'cad_funcionarios' %}" class="dropdown-item">Funcionários</a></li>
+      </ul>
+    </li>
+
+    <li class="nav-item">
+      <a href="{% url 'avisos' %}" class="nav-link">Avisos</a>
+    </li>
+    <li class="nav-item">
+      <a href="{% url 'professores' %}" class="nav-link">Professores</a>
+    </li>
+    <li class="nav-item">
+      <a href="{% url 'financeiro' %}" class="nav-link">Financeiro</a>
+    </li>
+    <li class="nav-item">
+      <a href="{% url 'relatorios' %}" class="nav-link">Relatórios</a>
+    </li>
+  </ul>
 </nav>
+
 {% block content %}{% endblock %}
 </body>
 </html>
