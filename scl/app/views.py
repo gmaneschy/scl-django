@@ -65,14 +65,23 @@ def cad_aluno(request):
 def cad_funcionarios(request):
     return render(request, 'cad_funcionarios.html')
 
-def avisos(request):
-    return render(request, 'avisos.html')
-
 def professores(request):
-    return render(request, 'professores.html')
+    """professor.usuario = request.user"""
+    if request.method == 'POST':
+        form = SisProf(request.GET, request.POST)
+        if form.is_valid():
+            sisprof = form.save(commit=False)
+            sisprof.save()
+            return redirect('professores')
+    else:
+        form = SisProf()
+    return render(request, 'professores.html', {'form': form})
 
 def financeiro(request):
     return render(request, 'financeiro.html')
 
 def relatorios(request):
     return render(request, 'relatorios.html')
+
+def avisos(request):
+    return render(request, 'avisos.html')

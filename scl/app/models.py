@@ -32,10 +32,16 @@ class Professor(models.Model):
     email = models.EmailField()
     telefone = models.CharField()
     disciplinas = models.ManyToManyField(Disciplina, blank=True, verbose_name="Disciplinas")
+    turmas = models.ManyToManyField(Turma, blank=True, verbose_name="Turma")
+
     def __str__(self):
         disciplinas_list = ", ".join([d.nome for d in self.disciplinas.all()])
         return (f"{self.nome} - {self.data_nascimento} - {self.email} - {self.telefone} "
-                f"- {disciplinas_list if disciplinas_list else 'Sem disciplinas'}")
+                f"- {disciplinas_list if disciplinas_list else 'Sem disciplinas'} - {self.turmas}")
+
+    def apenas_turmas(self):
+        turmas_list = ", ".join([s.nome for s in self.turmas.all()])
+        return f"{turmas_list}"
 
 class Aluno(models.Model):
     nome = models.CharField(max_length=100)
@@ -51,3 +57,9 @@ class Aluno(models.Model):
         return (f"{self.nome} - {self.data_nascimento} - {self.email} "
                 f"- {self.telefone} - {self.turmas}"
                 f"- {self.r_nome} - {self.r_email} - {self.r_telefone}")
+
+class SisProf(models.Model):
+    turmas = models.ManyToManyField(Professor, blank=True, verbose_name="Turma")
+
+    def __str__(self):
+        return f"{self.turmas}"

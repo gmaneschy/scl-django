@@ -31,6 +31,7 @@ class ProfessorForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'telefone': forms.TextInput(attrs={'class': 'form-control'}),
             'disciplinas': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'turmas': forms.SelectMultiple(attrs={'class': 'form-control'}),  # Para ManyToMany
         }
 
 class AlunoForm(forms.ModelForm):
@@ -53,3 +54,10 @@ class AlunoForm(forms.ModelForm):
             'r_telefone': 'Telefone do Responsável',
         }
 
+class SisProf(forms.ModelForm):
+    class Meta:
+        model = SisProf
+        fields = '__all__'
+        widgets = {
+            'turmas': forms.SelectMultiple(attrs={'class': 'form-control'}),  # Para ManyToMany
+        }

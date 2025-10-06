@@ -30,6 +30,7 @@ Telas
         Turnos
             Turmas
                 Lista de presença
+                Boletim
 
     Tela de Financeiro
         Contas a pagar:
