@@ -59,5 +59,4 @@ class SisProf(forms.ModelForm):
         model = SisProf
         fields = '__all__'
         widgets = {
-            'turmas': forms.SelectMultiple(attrs={'class': 'form-control'}),  # Para ManyToMany
         }

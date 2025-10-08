@@ -59,7 +59,4 @@ class Aluno(models.Model):
                 f"- {self.r_nome} - {self.r_email} - {self.r_telefone}")
 
 class SisProf(models.Model):
-    turmas = models.ManyToManyField(Professor, blank=True, verbose_name="Turma")
-
-    def __str__(self):
-        return f"{self.turmas}"
+    pass
