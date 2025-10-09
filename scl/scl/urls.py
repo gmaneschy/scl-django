@@ -33,12 +33,16 @@ urlpatterns = [
     path('cad_turma/', views.cad_turma, name='cad_turma'),
     path('cad_professor/', views.cad_professor, name='cad_professor'),
     path('cad_aluno/', views.cad_aluno, name='cad_aluno'),
-    path('cad_responsavel/', views.cad_responsavel, name='cad_responsavel'),
     path('cad_funcionarios/', views.cad_funcionarios, name='cad_funcionarios'),
 
-    # Criação de usuários automática
-    path('criar_usuario_professor/<int:professor_id>/', views.criar_usuario_professor, name='criar_usuario_professor'),
-    path('criar_usuario_aluno/<int:aluno_id>/', views.criar_usuario_aluno, name='criar_usuario_aluno'),
+    # Gerenciamento de usuários
+    path('redefinir_senha_professor/<int:professor_id>/', views.redefinir_senha_professor,
+         name='redefinir_senha_professor'),
+    path('redefinir_senha_aluno/<int:aluno_id>/', views.redefinir_senha_aluno, name='redefinir_senha_aluno'),
+    path('criar_usuario_manual_professor/<int:professor_id>/', views.criar_usuario_manual_professor,
+         name='criar_usuario_manual_professor'),
+    path('criar_usuario_manual_aluno/<int:aluno_id>/', views.criar_usuario_manual_aluno,
+         name='criar_usuario_manual_aluno'),
 
     # Sistema - Configurações
     path('config_sistema/', views.config_sistema, name='config_sistema'),

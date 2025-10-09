@@ -30,7 +30,7 @@ class ProfessorForm(forms.ModelForm):
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
             'data_nascimento': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'telefone': forms.TextInput(attrs={'class': 'form-control'}),
+            'telefone': forms.NumberInput(attrs={'class': 'form-control'}),
             'disciplinas': forms.SelectMultiple(attrs={'class': 'form-control'}),
             'turmas': forms.SelectMultiple(attrs={'class': 'form-control'}),
             'tipo_notificacao': forms.Select(attrs={'class': 'form-control'}),
@@ -44,24 +44,16 @@ class AlunoForm(forms.ModelForm):
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
             'data_nascimento': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'telefone': forms.TextInput(attrs={'class': 'form-control'}),
+            'telefone': forms.NumberInput(attrs={'class': 'form-control'}),
             'turmas': forms.SelectMultiple(attrs={'class': 'form-control'}),
             'tipo_notificacao': forms.Select(attrs={'class': 'form-control'}),
+            'responsavel': forms.TextInput(attrs={'class': 'form-control'}),
+            'parentesco': forms.TextInput(attrs={'class': 'form-control'}),
+            'email_responsavel': forms.TextInput(attrs={'class': 'form-control'}),
+            'telefone_responsavel': forms.NumberInput(attrs={'class': 'form-control'}),
+            'tipo_notificacao_responsavel': forms.Select(attrs={'class': 'form-control'}),
         }
 
-class ResponsavelForm(forms.ModelForm):
-    class Meta:
-        model = Responsavel
-        exclude = ['usuario']
-        widgets = {
-            'nome': forms.TextInput(attrs={'class': 'form-control'}),
-            'data_nascimento': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'telefone': forms.TextInput(attrs={'class': 'form-control'}),
-            'alunos': forms.SelectMultiple(attrs={'class': 'form-control'}),
-            'parentesco': forms.TextInput(attrs={'class': 'form-control'}),
-            'tipo_notificacao': forms.Select(attrs={'class': 'form-control'}),
-        }
 
 class FuncionarioForm(forms.ModelForm):
     class Meta:
@@ -71,7 +63,7 @@ class FuncionarioForm(forms.ModelForm):
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
             'data_nascimento': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'telefone': forms.TextInput(attrs={'class': 'form-control'}),
+            'telefone': forms.NumberInput(attrs={'class': 'form-control'}),
             'cargo': forms.Select(attrs={'class': 'form-control'}),
             'tipo_notificacao': forms.Select(attrs={'class': 'form-control'}),
         }

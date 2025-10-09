@@ -1,18 +1,83 @@
 {% extends 'base.html' %}
-{% load static %}
+
+{% block title %}Cadastro de Professores - SisProf{% endblock %}
 
 {% block content %}
-<head>
-    <title>Cadastrar Professor</title>
-</head>
-
-<div>
-    <h1>Cadastrar Professor</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Cadastrar Professor</button>
-    </form>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Cadastro de Professores</h2>
 </div>
 
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">{% if form.instance.id %}Editar Professor{% else %}Novo Professor{% endif %}</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Professores Cadastrados</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Usuário</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for professor in professores %}
+                            <tr>
+                                <td>{{ professor.nome }}</td>
+                                <td>{{ professor.email }}</td>
+                                <td>
+                                    {% if professor.usuario %}
+                                        <span class="badge bg-success">{{ professor.usuario.username }}</span>
+                                    {% else %}
+                                        <span class="badge bg-warning">Sem usuário</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="#" class="btn btn-outline-primary">Editar</a>
+                                        {% if professor.usuario %}
+                                            <form method="post" action="{% url 'redefinir_senha_professor' professor.id %}" class="d-inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-outline-warning" onclick="return confirm('Redefinir senha?')">Redefinir Senha</button>
+                                            </form>
+                                        {% else %}
+                                            <form method="post" action="{% url 'criar_usuario_manual_professor' professor.id %}" class="d-inline">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-outline-success">Criar Usuário</button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">Nenhum professor cadastrado</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'app',
+    'phonenumber_field',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -126,7 +127,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'
-
+PHONENUMBER_DEFAULT_REGION = 'BR'
 # Configurações de Email (para recuperação de senha)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Para desenvolvimento
 # Para produção, configure com seu servidor de email

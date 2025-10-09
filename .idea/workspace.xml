@@ -4,39 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb62645b-8dec-4446-b5b4-c1414ed36261" name="Changes" comment=".">
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/cad_responsavel.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/financeiro/contas_pagar.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/financeiro/contas_receber.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/financeiro/dashboard.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/professores/criar_avaliacao.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/professores/dashboard.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/professores/lancar_notas.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/professores/registrar_presenca.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/professores/turma_detalhe.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/professores/turmas.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/profiles.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/registration/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/registration/logout.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/relatorios/aluno.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/relatorios/dashboard.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scl/app/templates/relatorios/turma.html" afterDir="false" />
+    <list default="true" id="eb62645b-8dec-4446-b5b4-c1414ed36261" name="Changes" comment="deepseek views">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/app/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/app/migrations/0001_initial.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scl/app/templates/avisos.html" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/templates/avisos.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scl/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scl/app/templates/cad_aluno.html" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/templates/cad_aluno.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scl/app/templates/cad_disciplina.html" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/templates/cad_disciplina.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scl/app/templates/cad_funcionarios.html" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/templates/cad_funcionarios.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/app/templates/cad_professor.html" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/templates/cad_professor.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scl/app/templates/cad_turma.html" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/templates/cad_turma.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scl/app/templates/financeiro.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scl/app/templates/homepage.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scl/app/templates/navbar.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scl/app/templates/professores.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scl/app/templates/relatorios.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scl/app/templates/cad_responsavel.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/scl/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/scl/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/scl/scl/settings.py" afterDir="false" />
@@ -56,6 +31,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -89,7 +69,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#1 on deepseek&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Gabriel/PycharmProjects/escoladjango&quot;
   }
 }</component>
@@ -185,13 +165,22 @@
       <option name="project" value="LOCAL" />
       <updated>1759941099130</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="deepseek views">
+      <option name="closed" value="true" />
+      <created>1759944292424</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1759944292424</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="forms" />
     <MESSAGE value="telas" />
     <MESSAGE value="." />
-    <option name="LAST_COMMIT_MESSAGE" value="." />
+    <MESSAGE value="deepseek views" />
+    <option name="LAST_COMMIT_MESSAGE" value="deepseek views" />
   </component>
 </project>

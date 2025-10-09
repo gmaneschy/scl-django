@@ -2,19 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.db.models import Avg, Count
+from django.contrib.auth.models import User, Group
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import Group
+import random
+import string
 from .models import *
 from .forms import *
-import sentry_sdk
 
-sentry_sdk.init(
-    dsn="https://a69be57cee52a2a58d6985a410ba2777@o4509990068027392.ingest.us.sentry.io/4510125634813952",
-    send_default_pii=True,
-)
 
-# Create your views here.
 # Funções auxiliares para verificação de permissões
 def is_diretoria(user):
     return user.groups.filter(name='Diretoria').exists()
@@ -26,6 +22,48 @@ def is_professor(user):
 
 def is_aluno(user):
     return user.groups.filter(name='Alunos').exists()
+
+
+def gerar_senha_automatica(tamanho=8):
+    """Gera uma senha aleatória"""
+    caracteres = string.ascii_letters + string.digits
+    return ''.join(random.choice(caracteres) for _ in range(tamanho))
+
+
+def criar_usuario_automatico(email, nome, grupo_nome):
+    """Cria um usuário automaticamente baseado no email e nome"""
+    try:
+        # Usa parte do email como username (antes do @)
+        username = email.split('@')[0].lower()
+
+        # Verifica se username já existe, se sim, adiciona número
+        base_username = username
+        contador = 1
+        while User.objects.filter(username=username).exists():
+            username = f"{base_username}{contador}"
+            contador += 1
+
+        # Gera senha automática
+        senha = gerar_senha_automatica()
+
+        # Cria o usuário
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=senha,
+            first_name=nome.split(' ')[0],
+            last_name=' '.join(nome.split(' ')[1:]) if len(nome.split(' ')) > 1 else ''
+        )
+
+        # Adiciona ao grupo apropriado
+        grupo, created = Group.objects.get_or_create(name=grupo_nome)
+        user.groups.add(grupo)
+
+        return user, senha
+
+    except Exception as e:
+        print(f"Erro ao criar usuário automático: {e}")
+        return None, None
 
 
 # Views de Autenticação
@@ -45,9 +83,9 @@ def login_view(request):
                 elif is_professor(user):
                     return redirect('professores_dashboard')
                 elif is_aluno(user):
-                    return redirect('homepage')
+                    return redirect('aluno')
                 else:
-                    return redirect('homepage')
+                    return redirect('login')
 
         messages.error(request, 'Usuário ou senha inválidos.')
     else:
@@ -59,7 +97,7 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     messages.success(request, 'Você saiu do sistema.')
-    return redirect('homepage')
+    return redirect('login')
 
 
 @login_required
@@ -82,75 +120,6 @@ def profile(request):
         pass
 
     return render(request, 'profile.html', context)
-
-
-# View para criação automática de usuários (para Diretoria)
-@login_required
-@user_passes_test(is_diretoria)
-def criar_usuario_professor(request, professor_id):
-    professor = get_object_or_404(Professor, id=professor_id)
-
-    if request.method == 'POST':
-        # Criar usuário automaticamente
-        username = professor.email.split('@')[0]  # Usa parte do email como username
-        password = User.objects.make_random_password()
-
-        if not User.objects.filter(username=username).exists():
-            user = User.objects.create_user(
-                username=username,
-                email=professor.email,
-                password=password,
-                first_name=professor.nome.split(' ')[0],
-                last_name=' '.join(professor.nome.split(' ')[1:]) if len(professor.nome.split(' ')) > 1 else ''
-            )
-
-            # Adicionar ao grupo de Professores
-            grupo_professores, created = Group.objects.get_or_create(name='Professores')
-            user.groups.add(grupo_professores)
-
-            # Vincular usuário ao professor
-            professor.usuario = user
-            professor.save()
-
-            messages.success(request, f'Usuário criado para o professor. Senha: {password}')
-        else:
-            messages.error(request, 'Já existe um usuário com este username.')
-
-    return redirect('cad_professor')
-
-
-@login_required
-@user_passes_test(is_diretoria)
-def criar_usuario_aluno(request, aluno_id):
-    aluno = get_object_or_404(Aluno, id=aluno_id)
-
-    if request.method == 'POST':
-        # Criar usuário automaticamente
-        username = aluno.email.split('@')[0]
-        password = User.objects.make_random_password()
-
-        if not User.objects.filter(username=username).exists():
-            user = User.objects.create_user(
-                username=username,
-                email=aluno.email,
-                password=password,
-                first_name=aluno.nome.split(' ')[0],
-                last_name=' '.join(aluno.nome.split(' ')[1:]) if len(aluno.nome.split(' ')) > 1 else ''
-            )
-
-            # Adicionar ao grupo de Alunos
-            grupo_alunos, created = Group.objects.get_or_create(name='Alunos')
-            user.groups.add(grupo_alunos)
-
-            # Vincular usuário ao aluno
-            aluno.usuario = user
-            aluno.save()
-
-            messages.success(request, f'Usuário criado para o aluno. Senha: {password}')
-        else:
-            messages.error(request, 'Já existe um usuário com este username.')
-
-    return redirect('cad_aluno')
 
 
 # Views da Diretoria
@@ -198,12 +167,43 @@ def cad_professor(request):
     if request.method == 'POST':
         form = ProfessorForm(request.POST)
         if form.is_valid():
-            professor = form.save(commit=False)
-            # Aqui você pode criar o usuário automaticamente se necessário
-            professor.save()
-            form.save_m2m()  # Para salvar relações ManyToMany
-            messages.success(request, 'Professor cadastrado com sucesso!')
-            return redirect('cad_professor')
+            try:
+                professor = form.save(commit=False)
+
+                # Cria usuário automaticamente se não existir
+                if not professor.usuario:
+                    usuario, senha = criar_usuario_automatico(
+                        professor.email,
+                        professor.nome,
+                        'Professores'
+                    )
+
+                    if usuario:
+                        professor.usuario = usuario
+                        professor.save()
+                        form.save_m2m()
+
+                        messages.success(
+                            request,
+                            f'Professor cadastrado com sucesso! '
+                            f'Usuário: {usuario.username} | Senha: {senha}'
+                        )
+                    else:
+                        professor.save()
+                        form.save_m2m()
+                        messages.warning(
+                            request,
+                            'Professor cadastrado, mas não foi possível criar o usuário automático.'
+                        )
+                else:
+                    professor.save()
+                    form.save_m2m()
+                    messages.success(request, 'Professor atualizado com sucesso!')
+
+                return redirect('cad_professor')
+
+            except Exception as e:
+                messages.error(request, f'Erro ao cadastrar professor: {str(e)}')
     else:
         form = ProfessorForm()
 
@@ -220,11 +220,43 @@ def cad_aluno(request):
     if request.method == 'POST':
         form = AlunoForm(request.POST)
         if form.is_valid():
-            aluno = form.save(commit=False)
-            aluno.save()
-            form.save_m2m()
-            messages.success(request, 'Aluno cadastrado com sucesso!')
-            return redirect('cad_aluno')
+            try:
+                aluno = form.save(commit=False)
+
+                # Cria usuário automaticamente se não existir
+                if not aluno.usuario:
+                    usuario, senha = criar_usuario_automatico(
+                        aluno.email,
+                        aluno.nome,
+                        'Alunos'
+                    )
+
+                    if usuario:
+                        aluno.usuario = usuario
+                        aluno.save()
+                        form.save_m2m()
+
+                        messages.success(
+                            request,
+                            f'Aluno cadastrado com sucesso! '
+                            f'Usuário: {usuario.username} | Senha: {senha}'
+                        )
+                    else:
+                        aluno.save()
+                        form.save_m2m()
+                        messages.warning(
+                            request,
+                            'Aluno cadastrado, mas não foi possível criar o usuário automático.'
+                        )
+                else:
+                    aluno.save()
+                    form.save_m2m()
+                    messages.success(request, 'Aluno atualizado com sucesso!')
+
+                return redirect('cad_aluno')
+
+            except Exception as e:
+                messages.error(request, f'Erro ao cadastrar aluno: {str(e)}')
     else:
         form = AlunoForm()
 
@@ -237,32 +269,44 @@ def cad_aluno(request):
 
 @login_required
 @user_passes_test(is_diretoria)
-def cad_responsavel(request):
-    if request.method == 'POST':
-        form = ResponsavelForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Responsável cadastrado com sucesso!')
-            return redirect('cad_responsavel')
-    else:
-        form = ResponsavelForm()
-
-    responsaveis = Responsavel.objects.all()
-    return render(request, 'cad_responsavel.html', {
-        'form': form,
-        'responsaveis': responsaveis
-    })
-
-
-@login_required
-@user_passes_test(is_diretoria)
 def cad_funcionarios(request):
     if request.method == 'POST':
         form = FuncionarioForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'Funcionário cadastrado com sucesso!')
-            return redirect('cad_funcionarios')
+            try:
+                funcionario = form.save(commit=False)
+
+                # Cria usuário automaticamente se não existir
+                if not funcionario.usuario:
+                    usuario, senha = criar_usuario_automatico(
+                        funcionario.email,
+                        funcionario.nome,
+                        'Funcionarios'
+                    )
+
+                    if usuario:
+                        funcionario.usuario = usuario
+                        funcionario.save()
+
+                        messages.success(
+                            request,
+                            f'Funcionário cadastrado com sucesso! '
+                            f'Usuário: {usuario.username} | Senha: {senha}'
+                        )
+                    else:
+                        funcionario.save()
+                        messages.warning(
+                            request,
+                            'Funcionário cadastrado, mas não foi possível criar o usuário automático.'
+                        )
+                else:
+                    funcionario.save()
+                    messages.success(request, 'Funcionário atualizado com sucesso!')
+
+                return redirect('cad_funcionarios')
+
+            except Exception as e:
+                messages.error(request, f'Erro ao cadastrar funcionário: {str(e)}')
     else:
         form = FuncionarioForm()
 
@@ -271,6 +315,109 @@ def cad_funcionarios(request):
         'form': form,
         'funcionarios': funcionarios
     })
+
+
+# Views para gerenciamento de usuários
+@login_required
+@user_passes_test(is_diretoria)
+def redefinir_senha_professor(request, professor_id):
+    professor = get_object_or_404(Professor, id=professor_id)
+
+    if request.method == 'POST':
+        if professor.usuario:
+            nova_senha = gerar_senha_automatica()
+            professor.usuario.set_password(nova_senha)
+            professor.usuario.save()
+
+            messages.success(
+                request,
+                f'Senha redefinida para o professor {professor.nome}. '
+                f'Nova senha: {nova_senha}'
+            )
+        else:
+            messages.error(request, 'Este professor não tem um usuário vinculado.')
+
+    return redirect('cad_professor')
+
+
+@login_required
+@user_passes_test(is_diretoria)
+def redefinir_senha_aluno(request, aluno_id):
+    aluno = get_object_or_404(Aluno, id=aluno_id)
+
+    if request.method == 'POST':
+        if aluno.usuario:
+            nova_senha = gerar_senha_automatica()
+            aluno.usuario.set_password(nova_senha)
+            aluno.usuario.save()
+
+            messages.success(
+                request,
+                f'Senha redefinida para o aluno {aluno.nome}. '
+                f'Nova senha: {nova_senha}'
+            )
+        else:
+            messages.error(request, 'Este aluno não tem um usuário vinculado.')
+
+    return redirect('cad_aluno')
+
+
+@login_required
+@user_passes_test(is_diretoria)
+def criar_usuario_manual_professor(request, professor_id):
+    professor = get_object_or_404(Professor, id=professor_id)
+
+    if request.method == 'POST':
+        if not professor.usuario:
+            usuario, senha = criar_usuario_automatico(
+                professor.email,
+                professor.nome,
+                'Professores'
+            )
+
+            if usuario:
+                professor.usuario = usuario
+                professor.save()
+                messages.success(
+                    request,
+                    f'Usuário criado para o professor {professor.nome}. '
+                    f'Usuário: {usuario.username} | Senha: {senha}'
+                )
+            else:
+                messages.error(request, 'Não foi possível criar o usuário.')
+        else:
+            messages.warning(request, 'Este professor já tem um usuário vinculado.')
+
+    return redirect('cad_professor')
+
+
+@login_required
+@user_passes_test(is_diretoria)
+def criar_usuario_manual_aluno(request, aluno_id):
+    aluno = get_object_or_404(Aluno, id=aluno_id)
+
+    if request.method == 'POST':
+        if not aluno.usuario:
+            usuario, senha = criar_usuario_automatico(
+                aluno.email,
+                aluno.nome,
+                'Alunos'
+            )
+
+            if usuario:
+                aluno.usuario = usuario
+                aluno.save()
+                messages.success(
+                    request,
+                    f'Usuário criado para o aluno {aluno.nome}. '
+                    f'Usuário: {usuario.username} | Senha: {senha}'
+                )
+            else:
+                messages.error(request, 'Não foi possível criar o usuário.')
+        else:
+            messages.warning(request, 'Este aluno já tem um usuário vinculado.')
+
+    return redirect('cad_aluno')
 
 
 # Views dos Professores
@@ -289,7 +436,7 @@ def professores_dashboard(request):
         })
     except Professor.DoesNotExist:
         messages.error(request, 'Perfil de professor não encontrado.')
-        return redirect('homepage')
+        return redirect('login')
 
 
 @login_required
