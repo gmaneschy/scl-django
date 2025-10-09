@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Meu Perfil - SisProf{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Meu Perfil</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Informações do Usuário</h5>
+                        <p><strong>Usuário:</strong> {{ user.username }}</p>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                        <p><strong>Nome:</strong> {{ user.get_full_name }}</p>
+                        <p><strong>Grupo:</strong> 
+                            {% for group in user.groups.all %}
+                                {{ group.name }}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                    
+                    {% if perfil %}
+                    <div class="col-md-6">
+                        <h5>Informações do Perfil</h5>
+                        <p><strong>Nome:</strong> {{ perfil.nome }}</p>
+                        <p><strong>Data de Nascimento:</strong> {{ perfil.data_nascimento }}</p>
+                        <p><strong>Telefone:</strong> {{ perfil.telefone }}</p>
+                        <p><strong>Tipo de Notificação:</strong> {{ perfil.get_tipo_notificacao_display }}</p>
+                        
+                        {% if tipo == 'professor' %}
+                            <p><strong>Disciplinas:</strong> 
+                                {% for disciplina in perfil.disciplinas.all %}
+                                    {{ disciplina.nome }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </p>
+                        {% elif tipo == 'aluno' %}
+                            <p><strong>Turmas:</strong> 
+                                {% for turma in perfil.turmas.all %}
+                                    {{ turma.nome }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
