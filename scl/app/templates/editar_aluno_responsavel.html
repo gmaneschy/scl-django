@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Aluno - SisProf{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Editar Aluno: {{ aluno.nome }}</h2>
+        <a href="{% url 'cad_aluno' %}" class="btn btn-secondary">
+            ← Voltar para Lista
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Editar Aluno e Responsável</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- Dados do Aluno -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h6 class="border-bottom pb-2 mb-3 text-primary">Dados do Aluno</h6>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ aluno_form.nome.id_for_label }}" class="form-label">Nome Completo</label>
+                                {{ aluno_form.nome }}
+                                {% if aluno_form.nome.errors %}
+                                    <div class="text-danger small">{{ aluno_form.nome.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ aluno_form.data_nascimento.id_for_label }}" class="form-label">Data de Nascimento</label>
+                                {{ aluno_form.data_nascimento }}
+                                {% if aluno_form.data_nascimento.errors %}
+                                    <div class="text-danger small">{{ aluno_form.data_nascimento.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ aluno_form.email.id_for_label }}" class="form-label">Email</label>
+                                {{ aluno_form.email }}
+                                {% if aluno_form.email.errors %}
+                                    <div class="text-danger small">{{ aluno_form.email.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ aluno_form.telefone.id_for_label }}" class="form-label">Telefone</label>
+                                {{ aluno_form.telefone }}
+                                {% if aluno_form.telefone.errors %}
+                                    <div class="text-danger small">{{ aluno_form.telefone.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ aluno_form.tipo_notificacao.id_for_label }}" class="form-label">Tipo de Notificação</label>
+                                {{ aluno_form.tipo_notificacao }}
+                                {% if aluno_form.tipo_notificacao.errors %}
+                                    <div class="text-danger small">{{ aluno_form.tipo_notificacao.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ aluno_form.turmas.id_for_label }}" class="form-label">Turmas</label>
+                                {{ aluno_form.turmas }}
+                                {% if aluno_form.turmas.errors %}
+                                    <div class="text-danger small">{{ aluno_form.turmas.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-12 mb-3">
+                                <div class="form-check form-switch">
+                                    {{ aluno_form.ativo }}
+                                    <label for="{{ aluno_form.ativo.id_for_label }}" class="form-check-label">
+                                        Aluno Ativo
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dados do Responsável -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h6 class="border-bottom pb-2 mb-3 text-success">
+                                    Dados do Responsável
+                                    {% if not responsavel %}
+                                        <span class="badge bg-warning ms-2">Novo Responsável</span>
+                                    {% endif %}
+                                </h6>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ responsavel_form.nome.id_for_label }}" class="form-label">Nome Completo</label>
+                                {{ responsavel_form.nome }}
+                                {% if responsavel_form.nome.errors %}
+                                    <div class="text-danger small">{{ responsavel_form.nome.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ responsavel_form.data_nascimento.id_for_label }}" class="form-label">Data de Nascimento</label>
+                                {{ responsavel_form.data_nascimento }}
+                                {% if responsavel_form.data_nascimento.errors %}
+                                    <div class="text-danger small">{{ responsavel_form.data_nascimento.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ responsavel_form.email.id_for_label }}" class="form-label">Email</label>
+                                {{ responsavel_form.email }}
+                                {% if responsavel_form.email.errors %}
+                                    <div class="text-danger small">{{ responsavel_form.email.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ responsavel_form.telefone.id_for_label }}" class="form-label">Telefone</label>
+                                {{ responsavel_form.telefone }}
+                                {% if responsavel_form.telefone.errors %}
+                                    <div class="text-danger small">{{ responsavel_form.telefone.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ responsavel_form.parentesco.id_for_label }}" class="form-label">Parentesco</label>
+                                {{ responsavel_form.parentesco }}
+                                {% if responsavel_form.parentesco.errors %}
+                                    <div class="text-danger small">{{ responsavel_form.parentesco.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ responsavel_form.tipo_notificacao.id_for_label }}" class="form-label">Tipo de Notificação</label>
+                                {{ responsavel_form.tipo_notificacao }}
+                                {% if responsavel_form.tipo_notificacao.errors %}
+                                    <div class="text-danger small">{{ responsavel_form.tipo_notificacao.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ responsavel_form.cpf.id_for_label }}" class="form-label">CPF</label>
+                                {{ responsavel_form.cpf }}
+                                {% if responsavel_form.cpf.errors %}
+                                    <div class="text-danger small">{{ responsavel_form.cpf.errors }}</div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ responsavel_form.profissao.id_for_label }}" class="form-label">Profissão</label>
+                                {{ responsavel_form.profissao }}
+                                {% if responsavel_form.profissao.errors %}
+                                    <div class="text-danger small">{{ responsavel_form.profissao.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Botões de Ação -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="d-flex gap-2">
+                                    <button type="submit" class="btn btn-primary">
+                                        Salvar Alterações
+                                    </button>
+                                    <a href="{% url 'cad_aluno' %}" class="btn btn-secondary">
+                                        Cancelar
+                                    </a>
+                                    {% if responsavel %}
+                                    <button type="button" class="btn btn-danger ms-auto" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                        Excluir Responsável
+                                    </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Confirmação para Excluir Responsável -->
+{% if responsavel %}
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar Exclusão</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza que deseja excluir o responsável <strong>{{ responsavel.nome }}</strong>?</p>
+                <p class="text-danger"><small>Esta ação não pode ser desfeita.</small></p>
+            </div>
+            <div class="modal-footer">
+                <form method="post" action="{% url 'excluir_responsavel' responsavel.id %}">
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Excluir Responsável</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Script para melhorar a exibição dos formulários -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Adicionar classes Bootstrap aos campos do formulário
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        if (!input.classList.contains('form-control') && 
+            input.type !== 'checkbox' && 
+            input.type !== 'hidden') {
+            input.classList.add('form-control');
+        }
+    });
+    
+    // Estilizar checkboxes
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.classList.remove('form-control');
+        checkbox.classList.add('form-check-input');
+    });
+});
+</script>
+
+<style>
+.form-label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+</style>
+{% endblock %}

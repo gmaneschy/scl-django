@@ -36,24 +36,52 @@ class ProfessorForm(forms.ModelForm):
             'tipo_notificacao': forms.Select(attrs={'class': 'form-control'}),
         }
 
+
 class AlunoForm(forms.ModelForm):
     class Meta:
         model = Aluno
         exclude = ['usuario']
         widgets = {
-            'nome': forms.TextInput(attrs={'class': 'form-control'}),
+            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome completo do aluno'}),
             'data_nascimento': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'telefone': forms.NumberInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'email@exemplo.com'}),
+            'telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(00) 00000-0000'}),
             'turmas': forms.SelectMultiple(attrs={'class': 'form-control'}),
             'tipo_notificacao': forms.Select(attrs={'class': 'form-control'}),
-            'responsavel': forms.TextInput(attrs={'class': 'form-control'}),
-            'parentesco': forms.TextInput(attrs={'class': 'form-control'}),
-            'email_responsavel': forms.TextInput(attrs={'class': 'form-control'}),
-            'telefone_responsavel': forms.NumberInput(attrs={'class': 'form-control'}),
-            'tipo_notificacao_responsavel': forms.Select(attrs={'class': 'form-control'}),
         }
 
+
+class ResponsavelForm(forms.ModelForm):
+    class Meta:
+        model = Responsavel
+        exclude = ['usuario']
+        widgets = {
+            'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome completo do responsável'}),
+            'data_nascimento': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'email@exemplo.com'}),
+            'telefone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '(00) 00000-0000'}),
+            'tipo_notificacao': forms.Select(attrs={'class': 'form-control'}),
+            'parentesco': forms.Select(attrs={'class': 'form-control'}, choices=[
+                ('', 'Selecione o parentesco'),
+                ('Pai', 'Pai'),
+                ('Mãe', 'Mãe'),
+                ('Avô', 'Avô'),
+                ('Avó', 'Avó'),
+                ('Tio', 'Tio'),
+                ('Tia', 'Tia'),
+                ('Irmão', 'Irmão'),
+                ('Irmã', 'Irmã'),
+                ('Outros', 'Outros'),
+            ]),
+            'cpf': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '000.000.000-00'}),
+            'profissao': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Profissão do responsável'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Não mostrar o campo aluno no formulário - será definido na view
+        self.fields['aluno'].widget = forms.HiddenInput()
+        self.fields['aluno'].required = False
 
 class FuncionarioForm(forms.ModelForm):
     class Meta:

@@ -217,54 +217,145 @@ def cad_professor(request):
 @login_required
 @user_passes_test(is_diretoria)
 def cad_aluno(request):
-    if request.method == 'POST':
-        form = AlunoForm(request.POST)
-        if form.is_valid():
-            try:
-                aluno = form.save(commit=False)
+    aluno_form = AlunoForm(request.POST or None)
+    responsavel_form = ResponsavelForm(request.POST or None)
 
-                # Cria usuário automaticamente se não existir
+    if request.method == 'POST':
+        if aluno_form.is_valid() and responsavel_form.is_valid():
+            try:
+                # Salvar o aluno primeiro
+                aluno = aluno_form.save(commit=False)
+
+                # Criar usuário automaticamente para o aluno
                 if not aluno.usuario:
-                    usuario, senha = criar_usuario_automatico(
+                    usuario_aluno, senha_aluno = criar_usuario_automatico(
                         aluno.email,
                         aluno.nome,
                         'Alunos'
                     )
+                    if usuario_aluno:
+                        aluno.usuario = usuario_aluno
 
-                    if usuario:
-                        aluno.usuario = usuario
-                        aluno.save()
-                        form.save_m2m()
+                aluno.save()
+                aluno_form.save_m2m()  # Para salvar as turmas (ManyToMany)
 
-                        messages.success(
-                            request,
-                            f'Aluno cadastrado com sucesso! '
-                            f'Usuário: {usuario.username} | Senha: {senha}'
-                        )
-                    else:
-                        aluno.save()
-                        form.save_m2m()
-                        messages.warning(
-                            request,
-                            'Aluno cadastrado, mas não foi possível criar o usuário automático.'
-                        )
-                else:
-                    aluno.save()
-                    form.save_m2m()
-                    messages.success(request, 'Aluno atualizado com sucesso!')
+                # Agora salvar o responsável vinculado ao aluno
+                responsavel = responsavel_form.save(commit=False)
+                responsavel.aluno = aluno  # Vincular o responsável ao aluno
 
+                # Criar usuário automaticamente para o responsável
+                if not responsavel.usuario:
+                    usuario_responsavel, senha_responsavel = criar_usuario_automatico(
+                        responsavel.email,
+                        responsavel.nome,
+                        'Responsaveis'
+                    )
+                    if usuario_responsavel:
+                        responsavel.usuario = usuario_responsavel
+
+                responsavel.save()
+
+                messages.success(
+                    request,
+                    f'Aluno e responsável cadastrados com sucesso! '
+                    f'Aluno: {usuario_aluno.username if usuario_aluno else aluno.email} | '
+                    f'Senha Aluno: {senha_aluno if usuario_aluno else "Usuário não criado"} | '
+                    f'Responsável: {usuario_responsavel.username if usuario_responsavel else responsavel.email} | '
+                    f'Senha Responsável: {senha_responsavel if usuario_responsavel else "Usuário não criado"}'
+                )
                 return redirect('cad_aluno')
 
             except Exception as e:
-                messages.error(request, f'Erro ao cadastrar aluno: {str(e)}')
-    else:
-        form = AlunoForm()
+                messages.error(request, f'Erro ao cadastrar aluno e responsável: {str(e)}')
+        else:
+            # Se algum formulário for inválido, mostrar erros
+            messages.error(request, 'Por favor, corrija os erros no formulário.')
 
-    alunos = Aluno.objects.filter(ativo=True)
+    alunos = Aluno.objects.filter(ativo=True).prefetch_related('responsavel_aluno')
+
     return render(request, 'cad_aluno.html', {
-        'form': form,
+        'aluno_form': aluno_form,
+        'responsavel_form': responsavel_form,
         'alunos': alunos
     })
+
+
+@login_required
+@user_passes_test(is_diretoria)
+def editar_aluno_responsavel(request, aluno_id):
+    aluno = get_object_or_404(Aluno, id=aluno_id)
+
+    try:
+        responsavel = Responsavel.objects.get(aluno=aluno)
+    except Responsavel.DoesNotExist:
+        responsavel = None
+
+    if request.method == 'POST':
+        aluno_form = AlunoForm(request.POST, instance=aluno)
+        responsavel_form = ResponsavelForm(request.POST, instance=responsavel)
+
+        if aluno_form.is_valid():
+            # Salvar dados do aluno
+            aluno = aluno_form.save(commit=False)
+
+            # Atualizar usuário do aluno se necessário
+            if not aluno.usuario and aluno.email:
+                usuario_aluno, senha_aluno = criar_usuario_automatico(
+                    aluno.email,
+                    aluno.nome,
+                    'Alunos'
+                )
+                if usuario_aluno:
+                    aluno.usuario = usuario_aluno
+
+            aluno.save()
+            aluno_form.save_m2m()
+
+            # Salvar dados do responsável
+            if responsavel_form.is_valid():
+                responsavel = responsavel_form.save(commit=False)
+                responsavel.aluno = aluno
+
+                # Atualizar usuário do responsável se necessário
+                if not responsavel.usuario and responsavel.email:
+                    usuario_responsavel, senha_responsavel = criar_usuario_automatico(
+                        responsavel.email,
+                        responsavel.nome,
+                        'Responsaveis'
+                    )
+                    if usuario_responsavel:
+                        responsavel.usuario = usuario_responsavel
+
+                responsavel.save()
+
+            messages.success(request, 'Aluno e responsável atualizados com sucesso!')
+            return redirect('cad_aluno')
+        else:
+            messages.error(request, 'Por favor, corrija os erros no formulário.')
+    else:
+        aluno_form = AlunoForm(instance=aluno)
+        responsavel_form = ResponsavelForm(instance=responsavel)
+
+    return render(request, 'editar_aluno_responsavel.html', {
+        'aluno_form': aluno_form,
+        'responsavel_form': responsavel_form,
+        'aluno': aluno,
+        'responsavel': responsavel
+    })
+
+
+@login_required
+@user_passes_test(is_diretoria)
+def excluir_responsavel(request, responsavel_id):
+    responsavel = get_object_or_404(Responsavel, id=responsavel_id)
+    aluno_id = responsavel.aluno.id
+
+    if request.method == 'POST':
+        responsavel_nome = responsavel.nome
+        responsavel.delete()
+        messages.success(request, f'Responsável {responsavel_nome} excluído com sucesso!')
+
+    return redirect('editar_aluno_responsavel', aluno_id=aluno_id)
 
 
 @login_required

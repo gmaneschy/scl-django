@@ -33,6 +33,8 @@ urlpatterns = [
     path('cad_turma/', views.cad_turma, name='cad_turma'),
     path('cad_professor/', views.cad_professor, name='cad_professor'),
     path('cad_aluno/', views.cad_aluno, name='cad_aluno'),
+    path('editar_aluno_responsavel/<int:aluno_id>/', views.editar_aluno_responsavel, name='editar_aluno_responsavel'),
+    path('excluir_responsavel/<int:responsavel_id>/', views.excluir_responsavel, name='excluir_responsavel'),
     path('cad_funcionarios/', views.cad_funcionarios, name='cad_funcionarios'),
 
     # Gerenciamento de usuários

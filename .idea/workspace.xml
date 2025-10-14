@@ -4,17 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb62645b-8dec-4446-b5b4-c1414ed36261" name="Changes" comment="deepseek views">
+    <list default="true" id="eb62645b-8dec-4446-b5b4-c1414ed36261" name="Changes" comment="deepseek cad_aluno">
+      <change afterPath="$PROJECT_DIR$/scl/app/templates/editar_aluno.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scl/app/templates/editar_aluno_responsavel.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/app/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/app/migrations/0001_initial.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scl/app/templates/cad_professor.html" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/templates/cad_professor.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scl/app/templates/cad_responsavel.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/scl/app/templates/cad_aluno.html" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/templates/cad_aluno.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scl/app/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/tests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/scl/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scl/scl/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/scl/scl/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/scl/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/scl/scl/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -173,7 +173,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759944292424</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="deepseek cad_aluno">
+      <option name="closed" value="true" />
+      <created>1760033287534</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1760033287534</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -181,6 +189,7 @@
     <MESSAGE value="telas" />
     <MESSAGE value="." />
     <MESSAGE value="deepseek views" />
-    <option name="LAST_COMMIT_MESSAGE" value="deepseek views" />
+    <MESSAGE value="deepseek cad_aluno" />
+    <option name="LAST_COMMIT_MESSAGE" value="deepseek cad_aluno" />
   </component>
 </project>

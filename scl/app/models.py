@@ -45,7 +45,7 @@ class Pessoa(models.Model):
     data_nascimento = models.DateField()
     email = models.EmailField()
     telefone = models.CharField(max_length=20)
-    tipo_notificacao = models.CharField(max_length=10, choices=TIPO_NOTIFICACAO_CHOICES, verbose_name='Notificação' , default='email')
+    tipo_notificacao = models.CharField(max_length=10, choices=TIPO_NOTIFICACAO_CHOICES, verbose_name='Notificação', default='email')
 
     class Meta:
         abstract = True
@@ -65,20 +65,31 @@ class Professor(Pessoa):
 
 
 class Aluno(Pessoa):
+    turmas = models.ManyToManyField(Turma, blank=True, verbose_name="Turma")
+    ativo = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.nome} - {self.email}"
+
+
+class Responsavel(Pessoa):
     TIPO_NOTIFICACAO_CHOICES = [
         ('email', 'E-mail'),
         ('sms', 'SMS'),
         ('whatsapp', 'WhatsApp'),
     ]
-    turmas = models.ManyToManyField(Turma, blank=True, verbose_name="Turma")
-    ativo = models.BooleanField(default=True)
-    responsavel = models.CharField(max_length=100)
+
+    aluno = models.OneToOneField(
+        Aluno,
+        on_delete=models.CASCADE,
+        related_name='responsavel_aluno',
+        verbose_name="Aluno"
+    )
     parentesco = models.CharField(max_length=50, default="Pai/Mãe")
-    email_responsavel = models.EmailField()
-    telefone_responsavel = models.CharField(max_length=20)
-    tipo_notificacao_responsavel = models.CharField(max_length=10, choices=TIPO_NOTIFICACAO_CHOICES, verbose_name='Notificação do Responsável', default='email')
+    cpf = models.CharField(max_length=14, blank=True, null=True, verbose_name="CPF")
+
     def __str__(self):
-        return f"{self.nome} - {self.email} - {self.responsavel} - {self.parentesco} - {self.email_responsavel} - {self.telefone_responsavel} - {self.tipo_notificacao_responsavel}"
+        return f"{self.nome} - {self.parentesco} - {self.aluno.nome}"
 
 
 class Funcionario(Pessoa):
@@ -93,7 +104,7 @@ class Funcionario(Pessoa):
     ativo = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.nome} - {self.get_cargo_display()}"
+        return f"{self.nome} - {self.cargo}"
 
 
 # Modelos Acadêmicos
