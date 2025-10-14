@@ -4,11 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb62645b-8dec-4446-b5b4-c1414ed36261" name="Changes" comment="telas">
+    <list default="true" id="eb62645b-8dec-4446-b5b4-c1414ed36261" name="Changes" comment="deepseek cad_aluno">
+      <change afterPath="$PROJECT_DIR$/scl/app/templates/editar_aluno.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scl/app/templates/editar_aluno_responsavel.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/app/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scl/app/migrations/0001_initial.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scl/app/templates/cad_aluno.html" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/templates/cad_aluno.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scl/app/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scl/app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/scl/app/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scl/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/scl/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scl/scl/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/scl/scl/urls.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +31,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -57,7 +69,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#1 on deepseek&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Gabriel/PycharmProjects/escoladjango&quot;
   }
 }</component>
@@ -145,12 +157,39 @@
       <option name="project" value="LOCAL" />
       <updated>1759771909670</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary=".">
+      <option name="closed" value="true" />
+      <created>1759941099130</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1759941099130</updated>
+    </task>
+    <task id="LOCAL-00006" summary="deepseek views">
+      <option name="closed" value="true" />
+      <created>1759944292424</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1759944292424</updated>
+    </task>
+    <task id="LOCAL-00007" summary="deepseek cad_aluno">
+      <option name="closed" value="true" />
+      <created>1760033287534</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1760033287534</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="forms" />
     <MESSAGE value="telas" />
-    <option name="LAST_COMMIT_MESSAGE" value="telas" />
+    <MESSAGE value="." />
+    <MESSAGE value="deepseek views" />
+    <MESSAGE value="deepseek cad_aluno" />
+    <option name="LAST_COMMIT_MESSAGE" value="deepseek cad_aluno" />
   </component>
 </project>

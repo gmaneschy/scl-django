@@ -55,13 +55,19 @@
                                 <th>Responsável</th>
                                 <th>Parentesco</th>
                                 <th>Telefone Responsável</th>
+                                <th>Status</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for aluno in alunos %}
                             <tr>
-                                <td>{{ aluno.nome }}</td>
+                                <td>
+                                    <strong>{{ aluno.nome }}</strong>
+                                    {% if not aluno.ativo %}
+                                        <span class="badge bg-danger ms-1">Inativo</span>
+                                    {% endif %}
+                                </td>
                                 <td>{{ aluno.email }}</td>
                                 <td>
                                     {% if aluno.responsavel_aluno %}
@@ -72,7 +78,7 @@
                                 </td>
                                 <td>
                                     {% if aluno.responsavel_aluno %}
-                                        {{ aluno.responsavel_aluno.parentesco }}
+                                        <span class="badge bg-info">{{ aluno.responsavel_aluno.parentesco }}</span>
                                     {% else %}
                                         -
                                     {% endif %}
@@ -85,17 +91,39 @@
                                     {% endif %}
                                 </td>
                                 <td>
+                                    {% if aluno.ativo %}
+                                        <span class="badge bg-success">Ativo</span>
+                                    {% else %}
+                                        <span class="badge bg-danger">Inativo</span>
+                                    {% endif %}
+                                    {% if aluno.responsavel_aluno %}
+                                        <span class="badge bg-success">Com Responsável</span>
+                                    {% else %}
+                                        <span class="badge bg-warning">Sem Responsável</span>
+                                    {% endif %}
+                                </td>
+                                <td>
                                     <div class="btn-group btn-group-sm">
-                                        <a href="#" class="btn btn-outline-primary">Editar</a>
+                                        <a href="{% url 'editar_aluno_responsavel' aluno.id %}" class="btn btn-outline-primary" title="Editar aluno e responsável">
+                                            <i class="bi bi-pencil"></i> Editar
+                                        </a>
                                         {% if not aluno.responsavel_aluno %}
-                                            <a href="#" class="btn btn-outline-success">Adicionar Responsável</a>
+                                            <a href="{% url 'editar_aluno_responsavel' aluno.id %}" class="btn btn-outline-success" title="Adicionar responsável">
+                                                <i class="bi bi-person-plus"></i> Add Responsável
+                                            </a>
                                         {% endif %}
                                     </div>
                                 </td>
                             </tr>
                             {% empty %}
                             <tr>
-                                <td colspan="6" class="text-center">Nenhum aluno cadastrado</td>
+                                <td colspan="7" class="text-center py-4">
+                                    <div class="text-muted">
+                                        <i class="bi bi-people display-4"></i>
+                                        <p class="mt-2">Nenhum aluno cadastrado</p>
+                                        <small>Comece cadastrando um novo aluno acima.</small>
+                                    </div>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -105,4 +133,64 @@
         </div>
     </div>
 </div>
+
+<!-- Script para melhorar a exibição dos formulários -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Adicionar classes Bootstrap aos campos do formulário
+    const inputs = document.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        if (!input.classList.contains('form-control') &&
+            input.type !== 'checkbox' &&
+            input.type !== 'hidden') {
+            input.classList.add('form-control');
+        }
+    });
+
+    // Estilizar checkboxes
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.classList.remove('form-control');
+        checkbox.classList.add('form-check-input');
+
+        // Adicionar label personalizado para checkboxes
+        const parent = checkbox.closest('p');
+        if (parent) {
+            const label = parent.querySelector('label');
+            if (label) {
+                label.classList.add('form-check-label');
+                parent.classList.add('form-check', 'form-switch');
+            }
+        }
+    });
+
+    // Adicionar placeholders e melhorar labels
+    const labels = document.querySelectorAll('label');
+    labels.forEach(label => {
+        label.classList.add('form-label', 'fw-bold');
+    });
+});
+</script>
+
+<style>
+/* Estilos para melhorar a aparência */
+.form-label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.btn-group-sm .btn {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.badge {
+    font-size: 0.75em;
+}
+</style>
 {% endblock %}

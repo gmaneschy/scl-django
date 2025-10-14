@@ -2,8 +2,7 @@ django
 # django-admin startproject mysite
 # python manage.py startapp app
 
-
-sentry-sdk[django] #Logging
+django-phonenumber-field[phonenumbers] #Para o número de contato
 
 celery[librabbitmq,redis,auth,msgpack] #Gerenciador de tarefas assíncronas
 #Tarefas assíncronas
